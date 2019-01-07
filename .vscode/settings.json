@@ -3,5 +3,16 @@
     "wpilib.autoStartRioLog": true,
     "editor.fontSize": 13,
     "java.home": "/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home",
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "bin/": true,
+        ".classpath": true,
+        ".project": true
+    },
+    "wpilib.online": true
 }
