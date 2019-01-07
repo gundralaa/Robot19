@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import org.opencv.core.Mat;
 
-import Team4450.Lib.Util;
+import Team4450.Lib.*;
 import Team4450.Robot19.ExtLib.Grip.GripVisionPipeline;
 import Team4450.Robot19.ExtLib.VisionPipelineModifier;
 import edu.wpi.cscore.CvSink;
