@@ -9,6 +9,8 @@ package Team4450.Robot19;
 import java.util.Properties;
 
 import Team4450.Lib.*;
+import Team4450.Robot19.ExtLib.CameraFeed;
+import Team4450.Robot19.VisionFiles.GripPowerUpBlockPipeline;
 import Team4450.Robot19.Devices;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -44,6 +46,8 @@ public class Robot extends SampleRobot
   
   Teleop 				teleOp;
   Autonomous 			autonomous;
+
+  GripPowerUpBlockPipeline pipeline = new GripPowerUpBlockPipeline();
   
   // Constructor.
   
@@ -162,7 +166,9 @@ public class Robot extends SampleRobot
 
    		// Start camera server thread using our class for usb cameras.
       
-       	cameraThread = CameraFeed.getInstance(); 
+		cameraThread = CameraFeed.getInstance();
+		cameraThread.setPipeline(pipeline);
+		cameraThread.setShowContours(false);
        	cameraThread.start();
        	
        	// Configure autonomous program choices sendable chooser.

@@ -1,5 +1,7 @@
 {
     "wpilib.autoSaveOnDeploy": true,
     "wpilib.autoStartRioLog": true,
-    "editor.fontSize": 13
+    "editor.fontSize": 13,
+    "java.home": "/Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }
