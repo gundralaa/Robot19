@@ -294,7 +294,7 @@ public class CameraFeed extends Thread
 	 */
 	public Mat getCurrentImage()
 	{
-		Util.consoleLog();
+		//Util.consoleLog();
 		
 	    synchronized (this) 
 	    {

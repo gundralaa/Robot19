@@ -52,7 +52,7 @@ public class Autonomous
 		
 		autoChooser.setName("Auto Program");
 		autoChooser.addDefault("No Program", 0);
-		autoChooser.addDefault("Auto Program 1", 1);
+		autoChooser.addDefault("Vision Offset Auton", 1);
 		
 		SmartDashboard.putData(autoChooser);
 	}
@@ -94,6 +94,9 @@ public class Autonomous
 		{
 			case 0:		// No auto program.
 				break;
+			case 1:
+				visionOffsetAuton();
+				break;
 
 		}
 		
@@ -107,6 +110,15 @@ public class Autonomous
 		Util.consoleLog("final heading=%.2f  R=%.2f", Devices.navx.getHeading(), Devices.navx.getHeadingR());
 		
 		Util.consoleLog("end");
+	}
+
+	private void visionOffsetAuton(){
+		while(isAutoActive()){
+			double offset = 0.0;
+			offset = robot.vision.getContourDistanceBox();
+			Util.consoleLog("Running");
+			Util.consoleLog("offset=%.2f", offset);
+		}
 	}
 
 	/**

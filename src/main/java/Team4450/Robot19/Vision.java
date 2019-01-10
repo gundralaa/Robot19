@@ -1,12 +1,15 @@
 package Team4450.Robot19;
 
 import org.opencv.core.Mat;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
 
 import Team4450.Lib.Util;
 
 public class Vision 
 {
 	private Robot robot;
+	public Rect   targetRectangleRight, targetRectangeLeft;
 	
 	// This variable and method make sure this class is a singleton.
 	
@@ -26,5 +29,29 @@ public class Vision
 		this.robot = robot;
 		
 		Util.consoleLog("Vision created!");
+	}
+
+	public double getContourDistanceBox(){
+		double offset = 0.0;
+		double centerXLeft = 0.0, centerXRight = 0.0;
+		Mat image;
+
+	    image = robot.cameraThread.getCurrentImage();
+
+		robot.pipeline.process(image);
+		
+		if(robot.pipeline.filterContoursOutput().size() > 1){
+			targetRectangeLeft = Imgproc.boundingRect(robot.pipeline.filterContoursOutput().get(0));
+			targetRectangleRight = Imgproc.boundingRect(robot.pipeline.filterContoursOutput().get(1));
+		}
+
+		if(targetRectangeLeft != null && targetRectangleRight != null){
+			centerXLeft = targetRectangeLeft.x + targetRectangeLeft.width / 2;
+			centerXRight = targetRectangleRight.x + targetRectangleRight.width / 2;
+
+			offset = Math.abs((centerXLeft - centerXRight));
+		}
+
+		return offset;
 	}
 }
