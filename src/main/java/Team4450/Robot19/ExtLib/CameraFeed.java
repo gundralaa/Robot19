@@ -15,6 +15,7 @@ import edu.wpi.cscore.UsbCameraInfo;
 import edu.wpi.cscore.VideoMode;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 /**
@@ -29,7 +30,7 @@ import edu.wpi.first.wpilibj.vision.VisionPipeline;
 
 public class CameraFeed extends Thread
 {
-	private UsbCamera			currentCamera;
+	private UsbCamera           currentCamera;
 	private int					currentCameraIndex;
 	private ArrayList			<UsbCamera>cameras = new ArrayList<UsbCamera>();
 	private Mat 				image = new Mat();
@@ -52,8 +53,8 @@ public class CameraFeed extends Thread
 	//public final double 	fovV = 32.0;
 	private final double	frameRate = 20;			// frames per second
 	//private final int		whitebalance = 4700;	// Color temperature in K
-	private final int		brightness = 50;		// 0 - 100
-	//private final int		exposure = 50;			// 0 - 100
+	private final int		brightness = 0;		// 0 - 100
+	private int		        exposure = 0;			// 0 - 100
 
 	// Create single instance of this class and return that single instance to any callers.
 	
@@ -109,7 +110,9 @@ public class CameraFeed extends Thread
 
 		try
 		{
-    		Util.consoleLog();
+			Util.consoleLog();
+			
+			exposure = (int)(SmartDashboard.getNumber("Exposure", exposure));
     
     		this.setName("CameraFeed");
 
@@ -154,6 +157,23 @@ public class CameraFeed extends Thread
 		}
 		catch (Throwable e) {Util.logException(e);}
 	}
+
+	/**
+	 * Set the exposure value of the camera using
+	 * Default settings
+	 */
+	public void setExposure(int exposure){
+		this.exposure = exposure;
+		updateCameraSettings(currentCamera);
+	}
+
+	/**
+	 * Returns exposure current value
+	 * @return exposure value
+	 */
+	public int getExposure(){
+		return exposure;
+	}
 	
 	/**
 	 * Update camera with default settings.
@@ -161,11 +181,11 @@ public class CameraFeed extends Thread
 	private void updateCameraSettings(UsbCamera camera) 
 	{
 		Util.consoleLog();
-
 		camera.setResolution(imageWidth, imageHeight);
 		camera.setFPS((int) frameRate);
-		camera.setExposureAuto();
+		camera.setExposureManual(exposure);
 		camera.setWhiteBalanceAuto();
+		//camera.setWhiteBalanceManual(whitebalance);
 		camera.setBrightness(brightness);
 	}
 	
@@ -251,7 +271,16 @@ public class CameraFeed extends Thread
 		{
 			while (!isInterrupted())
 			{
-				if (!changingCamera) UpdateCameraImage();
+				if (!changingCamera)
+				{
+					int dashExposure = (int)(SmartDashboard.getNumber("Exposure", exposure));
+					if(dashExposure != exposure)
+					{
+						exposure = dashExposure;
+						updateCameraSettings(currentCamera);
+					}
+					UpdateCameraImage();
+				}
 		
 				Timer.delay(1 / frameRate);
 			}
