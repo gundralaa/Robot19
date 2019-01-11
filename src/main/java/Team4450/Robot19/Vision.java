@@ -5,11 +5,13 @@ import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
 import Team4450.Lib.Util;
+import Team4450.Robot19.VisionFiles.GripPipelineReflectiveTape;
 
 public class Vision 
 {
 	private Robot robot;
 	public Rect   targetRectangleRight, targetRectangeLeft;
+	private GripPipelineReflectiveTape pipeline;
 	
 	// This variable and method make sure this class is a singleton.
 	
@@ -38,11 +40,11 @@ public class Vision
 
 	    image = robot.cameraThread.getCurrentImage();
 
-		robot.pipeline.process(image);
+		pipeline.process(image);
 		
-		if(robot.pipeline.filterContoursOutput().size() > 1){
-			targetRectangeLeft = Imgproc.boundingRect(robot.pipeline.filterContoursOutput().get(0));
-			targetRectangleRight = Imgproc.boundingRect(robot.pipeline.filterContoursOutput().get(1));
+		if(pipeline.filterContoursOutput().size() > 1){
+			targetRectangeLeft = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
+			targetRectangleRight = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
 		}
 
 		if(targetRectangeLeft != null && targetRectangleRight != null){
