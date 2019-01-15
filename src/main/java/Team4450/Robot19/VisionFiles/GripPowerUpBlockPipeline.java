@@ -93,6 +93,11 @@ public class GripPowerUpBlockPipeline implements GripVisionPipeline {
 		return findContoursOutput;
 	}
 
+	@Override
+	public ArrayList<MatOfPoint> filterContoursOutput() {
+		return null;
+	}
+
 
 	/**
 	 * Segment an image based on hue, saturation, and value ranges.

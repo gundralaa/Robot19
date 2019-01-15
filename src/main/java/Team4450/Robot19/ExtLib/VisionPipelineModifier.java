@@ -32,12 +32,16 @@ public class VisionPipelineModifier implements GripVisionPipeline
 		
 		// Draw Contours Block
 		contourImage = image;
-        Imgproc.drawContours(contourImage, pipeline.findContoursOutput(), -1, new Scalar(0, 255, 0), 2);
+        Imgproc.drawContours(contourImage, pipeline.filterContoursOutput(), -1, new Scalar(0, 255, 0), 2);
 	}
 
 	@Override
 	public ArrayList<MatOfPoint> findContoursOutput() {
 		return pipeline.findContoursOutput();
+	}
+
+	public ArrayList<MatOfPoint> filterContoursOutput(){
+		return pipeline.filterContoursOutput();
 	}
 	
 	/**

@@ -114,10 +114,10 @@ public class Autonomous
 
 	private void visionOffsetAuton(){
 		Util.consoleLog("Running");
+		int offset = 0;
 		while(isAutoActive()){
-			double offset = 0.0;
-			offset = robot.vision.getContourDistanceBox();
-			Util.consoleLog("offset=%.2f", offset);
+			offset = (int)(robot.vision.getContourDistanceBox());
+			Util.consoleLog("Offset: %d", offset);
 		}
 	}
 

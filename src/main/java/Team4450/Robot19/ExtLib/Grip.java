@@ -19,6 +19,7 @@ public class Grip {
 	public interface GripVisionPipeline extends VisionPipeline 
 	{
 		public ArrayList<MatOfPoint> findContoursOutput();
+		public ArrayList<MatOfPoint> filterContoursOutput();
 		
 	}
 
