@@ -53,6 +53,7 @@ public class Autonomous
 		autoChooser.setName("Auto Program");
 		autoChooser.addDefault("No Program", 0);
 		autoChooser.addDefault("Vision Offset Auton", 1);
+		autoChooser.addDefault("Vision Forward Auton", 2);
 		
 		SmartDashboard.putData(autoChooser);
 	}
@@ -94,8 +95,13 @@ public class Autonomous
 		{
 			case 0:		// No auto program.
 				break;
+			
 			case 1:
 				visionOffsetAuton();
+				break;
+			
+			case 2:
+				visionForward(220);
 				break;
 
 		}
@@ -118,6 +124,23 @@ public class Autonomous
 		while(isAutoActive()){
 			offset = (int)(robot.vision.getContourDistanceBox());
 			Util.consoleLog("Offset: %d", offset);
+		}
+	}
+
+	private void visionForward(int lowerLimit){
+		
+		boolean reached = false;
+		while(!reached){
+			
+			if(((int)robot.vision.getContourDistanceBox()) < lowerLimit){
+				Util.consoleLog("First Level Close");
+                Devices.robotDrive.tankDrive(0.5, 0.5);    
+            }  
+            else if(((int)robot.vision.getContourDistanceBox()) > lowerLimit){
+				Util.consoleLog("Stop Close");
+				Devices.robotDrive.tankDrive(0.0, 0.0);
+				reached = true;
+            }
 		}
 	}
 

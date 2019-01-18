@@ -54,7 +54,7 @@ public class CameraFeed extends Thread
 	private final double	frameRate = 20;			// frames per second
 	//private final int		whitebalance = 4700;	// Color temperature in K
 	private final int		brightness = 0;		// 0 - 100
-	private int		        exposure = 10;			// 0 - 100
+	private int		        exposure = 0;			// 0 - 100
 
 	// Create single instance of this class and return that single instance to any callers.
 	

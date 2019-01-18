@@ -38,6 +38,7 @@ public class Vision
 	}
 
 	public double getContourDistanceBox(){
+		
 		double offset = 0.0;
 		double centerXLeft = 0.0, centerXRight = 0.0;
 		Mat image = null;
