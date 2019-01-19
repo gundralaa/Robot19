@@ -56,6 +56,13 @@ public class Vision
 			offset = Math.abs((centerXLeft - centerXRight));
 		}
 
+		if(offset > 10.0){
+			System.out.println("Contour Distance: " + offset);
+		}
+		else {
+			System.out.println("No Targets");
+		}
+
 		return offset;
 	}
 

@@ -3,7 +3,9 @@ package Team4450.Robot19;
 
 import Team4450.Lib.*;
 import Team4450.Robot19.Devices;
-
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -101,7 +103,7 @@ public class Autonomous
 				break;
 			
 			case 2:
-				visionForward(220);
+				visionForward(190);
 				break;
 
 		}
@@ -128,15 +130,21 @@ public class Autonomous
 	}
 
 	private void visionForward(int lowerLimit){
-		
+		NetworkTableInstance nsit = NetworkTableInstance.getDefault();
+		NetworkTable vision = nsit.getTable("vision_data");
+		NetworkTableEntry dist = vision.getEntry("inner_dist");
+
 		boolean reached = false;
 		while(!reached){
-			
-			if(((int)robot.vision.getContourDistanceBox()) < lowerLimit){
+			//dist = vision.getEntry("inner_dist");
+			int offset = (int)dist.getDouble(0.0);
+			Util.consoleLog("=%d", offset);
+			if(offset < lowerLimit){
 				Util.consoleLog("First Level Close");
-                Devices.robotDrive.tankDrive(0.5, 0.5);    
+				Devices.robotDrive.tankDrive(0.5, 0.5);
+				reached = false;    
             }  
-            else if(((int)robot.vision.getContourDistanceBox()) > lowerLimit){
+            else if(offset > lowerLimit){
 				Util.consoleLog("Stop Close");
 				Devices.robotDrive.tankDrive(0.0, 0.0);
 				reached = true;

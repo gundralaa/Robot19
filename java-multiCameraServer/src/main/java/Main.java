@@ -87,8 +87,6 @@ public final class Main {
     System.out.println("Setting up NetworkTables client for team " + team);
     ntinst.startClientTeam(team);
 
-    
-
     cameraThread = CameraFeed.getInstance();
     System.out.println("Ready Instance");
     Vision vision = Vision.getInstance(cameraThread);
@@ -100,13 +98,12 @@ public final class Main {
     // loop forever
     for (;;) {
       try {
-        Thread.sleep(1000);
+        Thread.sleep(500);
       } catch (InterruptedException ex) {
         return;
       }
       double offset = vision.getContourDistanceBox();
-      inside_dist.setDouble(offset);
-      System.out.println("Contour Distance: " + offset);
+      inside_dist.setDouble(offset);    
     }
   }
 }
