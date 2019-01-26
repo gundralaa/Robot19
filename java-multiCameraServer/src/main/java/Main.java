@@ -72,6 +72,7 @@ public final class Main {
    * Main.
    */
   public static void main(String... args) {
+    
     if (args.length > 0) {
       configFile = args[0];
       System.out.println("Config File");
@@ -94,6 +95,11 @@ public final class Main {
     cameraThread.setPipeline(pipeline);
     cameraThread.setShowContours(false);
     cameraThread.start();
+
+    //Boolean Target Visible
+    //X and Y of Rectangles
+    //X and Y Contour Center Coordinates
+
 
     // loop forever
     for (;;) {

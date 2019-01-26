@@ -171,7 +171,7 @@ public class Robot extends SampleRobot
    		// Start camera server thread using our class for usb cameras.   
 		cameraThread = CameraFeed.getInstance();
 		cameraThread.setPipeline(pipeline);
-		cameraThread.setShowContours(true);
+		cameraThread.setShowContours(false);
        	cameraThread.start();
        	
        	// Configure autonomous program choices sendable chooser.

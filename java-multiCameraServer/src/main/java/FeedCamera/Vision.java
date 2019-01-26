@@ -67,6 +67,7 @@ public class Vision
 	}
 
 	public void getContourTargetAngled(){
+		
 		Mat image = null;
 		RotatedRect rect2 = null, rect1 = null;
 		image = cameraThread.getCurrentImage();

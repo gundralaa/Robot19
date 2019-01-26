@@ -12,7 +12,7 @@ import edu.wpi.cscore.MjpegServer;
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.cscore.UsbCameraInfo;
 import edu.wpi.cscore.VideoMode;
-
+import edu.wpi.cscore.VideoProperty;
 import edu.wpi.cscore.VideoSource;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -252,20 +252,19 @@ public class CameraFeed extends Thread
 
             // Create Mjpeg stream server.
             
-            mjpegServer = CameraServer.getInstance().addServer("4450-mjpegServer", 1180);
+			mjpegServer = CameraServer.getInstance().addServer("4450-RaspiServer", 1181);
 
             // Create image source.
             
-            imageSource = new CvSink("4450-CvSink");
+            imageSource = new CvSink("4450-Raspi-CvSink");
             
             // Create output image stream.
             
-            imageOutputStream = new CvSource("4450-CvSource", VideoMode.PixelFormat.kMJPEG, imageWidth, imageHeight, (int) frameRate);
+            imageOutputStream = new CvSource("4450-Raspi-CvSource", VideoMode.PixelFormat.kMJPEG, imageWidth, imageHeight, (int) frameRate);
 			//imageOutputStream = new CvSource("4450-CvSource");
 
 			
-            mjpegServer.setSource(imageOutputStream);
-            
+			mjpegServer.setSource(imageOutputStream);            
             // Create cameras by getting the list of cameras detected by the RoboRio and
             // creating camera objects and storing them in an arraylist so we can switch
 			// between them.

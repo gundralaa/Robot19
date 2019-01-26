@@ -53,8 +53,8 @@ public class CameraFeed extends Thread
 	//public final double 	fovV = 32.0;
 	private final double	frameRate = 20;			// frames per second
 	//private final int		whitebalance = 4700;	// Color temperature in K
-	private final int		brightness = 0;		// 0 - 100
-	private int		        exposure = 0;			// 0 - 100
+	private final int		brightness = 50;		// 0 - 100
+	private int		        exposure = 50;			// 0 - 100
 
 	// Create single instance of this class and return that single instance to any callers.
 	
@@ -183,7 +183,8 @@ public class CameraFeed extends Thread
 		Util.consoleLog();
 		camera.setResolution(imageWidth, imageHeight);
 		camera.setFPS((int) frameRate);
-		camera.setExposureManual(exposure);
+		camera.setExposureAuto();
+		//camera.setExposureManual(exposure);
 		camera.setWhiteBalanceAuto();
 		//camera.setWhiteBalanceManual(whitebalance);
 		camera.setBrightness(brightness);

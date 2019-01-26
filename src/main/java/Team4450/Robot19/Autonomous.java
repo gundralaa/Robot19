@@ -103,7 +103,7 @@ public class Autonomous
 				break;
 			
 			case 2:
-				visionForward(190);
+				visionForward(190, 0.4);
 				break;
 
 		}
@@ -125,23 +125,24 @@ public class Autonomous
 		int offset = 0;
 		while(isAutoActive()){
 			offset = (int)(robot.vision.getContourDistanceBox());
-			Util.consoleLog("Offset: %d", offset);
+			Util.consoleLog("Offset =%d", offset);
 		}
 	}
 
-	private void visionForward(int lowerLimit){
+	private void visionForward(int lowerLimit, double power){
 		NetworkTableInstance nsit = NetworkTableInstance.getDefault();
 		NetworkTable vision = nsit.getTable("vision_data");
 		NetworkTableEntry dist = vision.getEntry("inner_dist");
 
 		boolean reached = false;
-		while(!reached){
-			//dist = vision.getEntry("inner_dist");
-			int offset = (int)dist.getDouble(0.0);
-			Util.consoleLog("=%d", offset);
+		int offset = (int)dist.getDouble(0.0);
+		while(!reached && offset != 0.0 && isAutoActive()){
+			offset = (int)dist.getDouble(0.0);
+			//dist = vision.getEntry("inner_dist");			
+			Util.consoleLog("Offset =%d", offset);
 			if(offset < lowerLimit){
 				Util.consoleLog("First Level Close");
-				Devices.robotDrive.tankDrive(0.5, 0.5);
+				Devices.robotDrive.tankDrive(power, power);
 				reached = false;    
             }  
             else if(offset > lowerLimit){

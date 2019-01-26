@@ -138,9 +138,10 @@ class Teleop
 		{
 			// Get joystick deflection and feed to robot drive object
 			// using calls to our JoyStick class.
-			int offset = 0;
+			
+			/* int offset = 0;
 			offset = (int)(robot.vision.getContourDistanceBox());
-			Util.consoleLog("Offset: %d", offset);
+			Util.consoleLog("Offset: %d", offset); */
 
 			rightY = stickLogCorrection(rightStick.GetY());	// fwd/back
 			leftY = stickLogCorrection(leftStick.GetY());	// fwd/back
