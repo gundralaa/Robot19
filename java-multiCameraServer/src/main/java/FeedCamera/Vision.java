@@ -47,6 +47,12 @@ public class Vision
 		if(pipeline.filterContoursOutput().size() > 1){
 			targetRectangeLeft = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
 			targetRectangleRight = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
+
+			if(targetRectangeLeft.x > targetRectangleRight.x){
+				Rect temp = targetRectangeLeft;
+				targetRectangeLeft = targetRectangleRight;
+				targetRectangleRight = temp;
+			}
 		}
 
 		if(targetRectangeLeft != null && targetRectangleRight != null){
