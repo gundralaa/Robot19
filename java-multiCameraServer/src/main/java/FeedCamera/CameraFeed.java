@@ -377,7 +377,7 @@ public class CameraFeed extends Thread
 					UpdateCameraImage();
 				}
 		
-				sleep((long)((1 / frameRate) * 1000));
+				sleep((long)((1 / frameRate) * 100));
 			}
 		}
 		catch (Throwable e) {

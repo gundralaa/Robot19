@@ -97,6 +97,7 @@ public class Vision
 		if(size > 1){
 			MatOfPoint2f rect2Points = new MatOfPoint2f(pipeline.filterContoursOutput().get(1).toArray());
 			rect2 = Imgproc.minAreaRect(rect2Points);
+			System.out.println(rect2.angle);
 
 			if(rect2.angle > LEFT_ANGLE_THRESHOLD){
 				targetRectangeLeft = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));

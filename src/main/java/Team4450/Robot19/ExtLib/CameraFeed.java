@@ -283,7 +283,7 @@ public class CameraFeed extends Thread
 					UpdateCameraImage();
 				}
 		
-				Timer.delay(1 / frameRate);
+				sleep((long)(((1 / frameRate) * 100)));
 			}
 		}
 		catch (Throwable e) {Util.logException(e);}
