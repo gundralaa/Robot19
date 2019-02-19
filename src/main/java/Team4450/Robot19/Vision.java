@@ -63,7 +63,13 @@ public class Vision
 		vision =  null;
 	}
 
-	public getAngle
+	public double getTurnAngle(){
+		return inner_dist.getDouble(0.0);
+	}
+
+	public double getInnerDist(){
+		return inner_dist.getDouble(0.0);
+	}
 	
 	
 }

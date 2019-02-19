@@ -104,10 +104,6 @@ public class Autonomous
 				break;
 			
 			case 1:
-				visionOffsetAuton();
-				break;
-			
-			case 2:
 				visionForward(190, 0.4);
 				break;
 
@@ -125,24 +121,12 @@ public class Autonomous
 		Util.consoleLog("end");
 	}
 
-	private void visionOffsetAuton(){
-		Util.consoleLog("Running");
-		int offset = 0;
-		while(isAutoActive()){
-			offset = (int)(robot.vision.getContourDistanceBox());
-			Util.consoleLog("Offset =%d", offset);
-		}
-	}
-
 	private void visionForward(int lowerLimit, double power){
-		NetworkTableInstance nsit = NetworkTableInstance.getDefault();
-		NetworkTable vision = nsit.getTable("vision_data");
-		NetworkTableEntry dist = vision.getEntry("inner_dist");
-
+		
 		boolean reached = false;
-		int offset = (int)dist.getDouble(0.0);
+		int offset = (int)robot.vision.getTurnAngle();
 		while(!reached && offset != 0.0 && isAutoActive()){
-			offset = (int)dist.getDouble(0.0);
+			offset = (int)robot.vision.getTurnAngle();
 			//dist = vision.getEntry("inner_dist");			
 			Util.consoleLog("Offset =%d", offset);
 			if(offset < lowerLimit){
