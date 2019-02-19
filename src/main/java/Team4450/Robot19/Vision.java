@@ -8,6 +8,9 @@ import org.opencv.imgproc.Imgproc;
 
 import Team4450.Lib.Util;
 import Team4450.Robot19.VisionFiles.GripPipelineReflectiveTape;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class Vision 
 {
@@ -20,7 +23,17 @@ public class Vision
 	// This variable and method make sure this class is a singleton.
 	
 	public static Vision vision = null;
+
+	private NetworkTableInstance nsit;
+	private NetworkTable vision_table;
+	private NetworkTableEntry inner_dist;
+	private NetworkTableEntry turn_angle;
 	
+	/**
+	* Get reference to the single instance of this class shared by any caller of
+	* this method.
+	* @return Reference to single shared instance of this class.
+	*/
 	public static Vision getInstance(Robot robot) 
 	{
 		if (vision == null) vision = new Vision(robot);
@@ -28,82 +41,29 @@ public class Vision
 		return vision;
 	}
 	
-	// This is the rest of the class.
+	// Private constructor prevents multiple instances from being created.
 	
 	private Vision(Robot robot) 
 	{
 		this.robot = robot;
+
+		nsit = NetworkTableInstance.getDefault();
+		vision_table = nsit.getTable("vision_data");
+		inner_dist = vision_table.getEntry("inner_dist");
+		turn_angle = vision_table.getEntry("turn_angle");
 		
 		Util.consoleLog("Vision created!");
 	}
-
-	public double getContourDistanceBox(){
-		
-		double offset = 0.0;
-		double centerXLeft = 0.0, centerXRight = 0.0;
-		Mat image = null;
-
-	    image = robot.cameraThread.getCurrentImage();
-
-		pipeline.process(image);
-		
-		if(pipeline.filterContoursOutput().size() > 1){
-			targetRectangeLeft = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-			targetRectangleRight = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
-		}
-
-		if(targetRectangeLeft != null && targetRectangleRight != null){
-			centerXLeft = targetRectangeLeft.x + targetRectangeLeft.width / 2;
-			centerXRight = targetRectangleRight.x + targetRectangleRight.width / 2;
-
-			offset = Math.abs((centerXLeft - centerXRight));
-		}
-
-		return offset;
+	
+	/**
+	* Release any resources allocated and the singleton object.
+	*/
+	public void dispose()
+	{
+		vision =  null;
 	}
 
-	public void getContourTargetAngled(){
-		Mat image = null;
-		RotatedRect rect2 = null, rect1 = null;
-		image = robot.cameraThread.getCurrentImage();
-
-		pipeline.process(image);
-
-		int size = pipeline.filterContoursOutput().size();
-		
-		if( size > 0){
-			MatOfPoint2f rect1Points = new MatOfPoint2f(pipeline.filterContoursOutput().get(0).toArray());
-			rect1 = Imgproc.minAreaRect(rect1Points);
-			
-			Util.consoleLog("Rect1 Angle: d%", (int)rect1.angle);
-			
-			if(rect1.angle > LEFT_ANGLE_THRESHOLD){
-				targetRectangeLeft = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-				return;
-			}
-
-			
-		}
-
-		if(size > 1){
-			MatOfPoint2f rect2Points = new MatOfPoint2f(pipeline.filterContoursOutput().get(1).toArray());
-			rect2 = Imgproc.minAreaRect(rect2Points);
-
-			if(rect2.angle > LEFT_ANGLE_THRESHOLD){
-				targetRectangeLeft = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
-				targetRectangleRight = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-				return;
-			}
-
-			if(rect2.angle < RIGHT_ANGLE_THRESHOLD){
-				targetRectangeLeft = Imgproc.boundingRect(pipeline.filterContoursOutput().get(0));
-				targetRectangleRight = Imgproc.boundingRect(pipeline.filterContoursOutput().get(1));
-				return;
-			}
-			
-		}
-
-
-
-	}
+	public getAngle
+	
+	
 }
