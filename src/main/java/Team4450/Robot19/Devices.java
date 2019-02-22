@@ -48,8 +48,8 @@ public class Devices
 	  public final static Compressor	compressor = new Compressor(0);	// Compressor class represents the PCM.
 
 	  public final static ValveDA		highLowValve = new ValveDA(0);		// For gearbox.
-	  public final static ValveDA		frontLiftValve = new ValveDA(2);	// For front lift.
-	  public final static ValveDA		rearLiftValve = new ValveDA(4);		// For rear lift.
+	  public final static ValveDA		frontClimbValve = new ValveDA(2);	// For front lift.
+	  public final static ValveDA		rearClimbValve = new ValveDA(4);		// For rear lift.
 	  public final static ValveDA		pickupValve = new ValveDA(6);		// For rear lift.
 	  public final static ValveSA		hatchKickValve = new ValveSA(1, 4);	// Kick of hatch.
 	  
@@ -88,6 +88,8 @@ public class Devices
 		  LRCanTalon = new WPI_TalonSRX(2);
 		  RFCanTalon = new WPI_TalonSRX(4);	
 		  RRCanTalon = new WPI_TalonSRX(3);	
+
+
 		  
 	      // Initialize CAN Talons and write status to log so we can verify
 	      // all the Talons are connected.

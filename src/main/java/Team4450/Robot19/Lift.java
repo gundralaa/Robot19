@@ -17,6 +17,10 @@ public class Lift {
     private final int SECOND_LEVEL_COUNT = 0;
     private final int THIRD_LEVEL_COUNT = 0;
 
+    private final double P_VALUE = 0.0003;
+    private final double I_VALUE = 0.00001;
+    private final double D_VALUE = 0.0003;
+
     public enum Level {
         BASE, FIRST, SECOND, THIRD;
     }
@@ -80,10 +84,14 @@ public class Lift {
         Util.consoleLog("%d", count);
 		
 		if (count >= 0)
-		{			
-			pidController.setPID(0.0003, 0.00001, 0.0003, 0.0);
-			pidController.setOutputRange(-1, 1);
-			pidController.setSetpoint(count);
+		{	
+            		
+			pidController.setPID(P_VALUE, I_VALUE, D_VALUE, 0.0);
+            // Power Output Ranges
+            pidController.setOutputRange(-1, 1);
+            // Target Count
+            pidController.setSetpoint(count);
+            // Tolerance To Setpoint
 			pidController.setPercentTolerance(1);	// % error.
 			pidController.enable();
 		}
