@@ -104,7 +104,11 @@ public class Autonomous
 				break;
 			
 			case 1:
-				visionForward(190, 0.4);
+				visionForwardBasic(190, 0.4);
+				break;
+
+			case 2:
+				visionTurnBasic(0.1, 0.2);
 				break;
 
 		}
@@ -121,26 +125,46 @@ public class Autonomous
 		Util.consoleLog("end");
 	}
 
-	private void visionForward(int lowerLimit, double power){
+	private void visionForwardBasic(int lowerLimit, double power){
 		
 		boolean reached = false;
 		int offset = (int)robot.vision.getTurnAngle();
 		while(!reached && offset != 0.0 && isAutoActive()){
+			
 			offset = (int)robot.vision.getTurnAngle();
 			//dist = vision.getEntry("inner_dist");			
 			Util.consoleLog("Offset =%d", offset);
+			
 			if(offset < lowerLimit){
 				Util.consoleLog("First Level Close");
 				Devices.robotDrive.tankDrive(power, power);
 				reached = false;    
             }  
-            else if(offset > lowerLimit){
+			
+			else if(offset > lowerLimit){
 				Util.consoleLog("Stop Close");
 				Devices.robotDrive.tankDrive(0.0, 0.0);
 				reached = true;
             }
 		}
 	}
+
+	private void visionTurnBasic(double tolerance, double power){
+		double angle = robot.vision.getInnerDist();
+		double diff = Math.abs(angle);
+		
+		while(diff > tolerance && isAutoActive()){
+			if(angle > 0){
+				Devices.robotDrive.tankDrive(0, power);
+			}
+			else if( angle < 0){
+				Devices.robotDrive.tankDrive(power, 0);
+			}
+		}
+		Devices.robotDrive.tankDrive(0, 0);
+
+	}
+
 
 	/**
 	 * Auto drive straight in set direction and power for specified encoder count. Stops
