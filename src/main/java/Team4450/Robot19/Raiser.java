@@ -3,12 +3,12 @@ package Team4450.Robot19;
 import Team4450.Lib.Util;
 
 public class Raiser {
-    private Robot robot;
+	
+	private Robot robot;
     private boolean frontClimbExtended, rearClimbExtended;
 
     public Raiser(Robot robot){
         this.robot = robot;
-
     }
 
     // This is the rest of the class.

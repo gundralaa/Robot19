@@ -55,7 +55,7 @@ public class Autonomous
 		autoChooser.setName("Auto Program");
 		autoChooser.addDefault("No Program", 0);
 		autoChooser.addDefault("Vision Offset Auton", 1);
-		autoChooser.addDefault("Vision Forward Auton", 2);
+		autoChooser.addDefault("Vision Turn Auton", 2);
 
 		
 		SmartDashboard.putData(autoChooser);
@@ -104,11 +104,12 @@ public class Autonomous
 				break;
 			
 			case 1:
+
 				visionForwardBasic(190, 0.4);
 				break;
 
 			case 2:
-				visionTurnBasic(0.1, 0.2);
+				visionTurnBasic(0.2, 0.4);
 				break;
 
 		}
@@ -125,13 +126,15 @@ public class Autonomous
 		Util.consoleLog("end");
 	}
 
+	// Vision Forward Basic
 	private void visionForwardBasic(int lowerLimit, double power){
 		
 		boolean reached = false;
-		int offset = (int)robot.vision.getTurnAngle();
+		int offset = (int)robot.vision.getInnerDist();
+		Util.consoleLog("Offset =%d", offset);		
 		while(!reached && offset != 0.0 && isAutoActive()){
 			
-			offset = (int)robot.vision.getTurnAngle();
+			offset = (int)robot.vision.getInnerDist();
 			//dist = vision.getEntry("inner_dist");			
 			Util.consoleLog("Offset =%d", offset);
 			
@@ -145,22 +148,27 @@ public class Autonomous
 				Util.consoleLog("Stop Close");
 				Devices.robotDrive.tankDrive(0.0, 0.0);
 				reached = true;
-            }
+			}
+			
 		}
 	}
 
+	// Vision Turn Basic
 	private void visionTurnBasic(double tolerance, double power){
-		double angle = robot.vision.getInnerDist();
+		double angle = robot.vision.getTurnAngle();
 		double diff = Math.abs(angle);
 		
 		while(diff > tolerance && isAutoActive()){
 			if(angle > 0){
 				Devices.robotDrive.tankDrive(0, power);
 			}
-			else if( angle < 0){
+			else if(angle < 0){
 				Devices.robotDrive.tankDrive(power, 0);
 			}
+			angle = robot.vision.getTurnAngle();
+			diff = Math.abs(angle);
 		}
+		
 		Devices.robotDrive.tankDrive(0, 0);
 
 	}

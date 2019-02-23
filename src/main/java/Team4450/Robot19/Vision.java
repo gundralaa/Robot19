@@ -28,6 +28,7 @@ public class Vision
 	private NetworkTable vision_table;
 	private NetworkTableEntry inner_dist;
 	private NetworkTableEntry turn_angle;
+	private NetworkTableEntry angle_offset;
 	
 	/**
 	* Get reference to the single instance of this class shared by any caller of
@@ -48,9 +49,10 @@ public class Vision
 		this.robot = robot;
 
 		nsit = NetworkTableInstance.getDefault();
-		vision_table = nsit.getTable("vision_data");
+		vision_table = nsit.getTable("PiVision");
 		inner_dist = vision_table.getEntry("inner_dist");
 		turn_angle = vision_table.getEntry("turn_angle");
+		angle_offset = vision_table.getEntry("angle_offset");
 		
 		Util.consoleLog("Vision created!");
 	}
@@ -63,12 +65,21 @@ public class Vision
 		vision =  null;
 	}
 
+	// Turn angle Relative
 	public double getTurnAngle(){
-		return inner_dist.getDouble(0.0);
+		return turn_angle.getDouble(0.0);
 	}
 
+	// Inner Distance
 	public double getInnerDist(){
-		return inner_dist.getDouble(0.0);
+		double offset = inner_dist.getDouble(0.0);
+		//Util.consoleLog(".2f", offset );
+		return offset;
+	}
+
+	// Angle Offset Public
+	public double getAngleOffset(){
+		return angle_offset.getDouble(0.0);
 	}
 	
 	
